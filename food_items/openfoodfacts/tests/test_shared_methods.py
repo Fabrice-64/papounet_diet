@@ -6,12 +6,11 @@
 """
 
 from food_items.openfoodfacts.shared_methods import DataCleaning
+from food_items.openfoodfacts.tests.mock_data import MockDataOFF
 from django.test import TestCase
-import os
-import json
 
 
-class TestDataCleaning(TestCase, DataCleaning):
+class TestDataCleaning(TestCase, DataCleaning, MockDataOFF):
 
     def test_check_special_characters(self):
         values = ["",
@@ -24,15 +23,16 @@ class TestDataCleaning(TestCase, DataCleaning):
         self.assertIsNotNone(result)
         self.assertEqual(test_list, ["NaN", "le magasin", "l\'autre magasin"])
 
+    def test_select_data(self):
+        data = self.store_data
+        key_file, key_to_check, threshold = "tags", "products", 1000
+        selected_data = self._select_data(data, key_file, key_to_check, threshold)
+        self.assertLess(len(selected_data), 100)
+
     def test_from_data_to_list(self):
-        current_path = os.path.abspath(os.getcwd())
-        with open(os.path.join(current_path,
-                  "food_items/openfoodfacts/tests/off_data_to_be_tested/mock_stores.json"),
-                  'r') as f:
-            data = json.load(f)
-        key_file = "tags"
-        key_item = "name"
-        store_list = self.from_data_to_list(data, key_file, key_item)
+        data = self.store_data
+        key_file, key_item, key_to_check, threshold = "tags", "name", "products", 1000
+        store_list = self.from_data_to_list(data, key_file, key_item, key_to_check, threshold )
         self.assertGreater(len(store_list), 10)
         return store_list
 

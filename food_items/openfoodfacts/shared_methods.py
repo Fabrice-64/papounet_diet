@@ -23,10 +23,10 @@ class DataCleaning():
             _check_special_characters:
             remove all signs which may provoke exceptions.
 
-            _from_data_to_list: 
+            _from_data_to_list:
             self explanatory
 
-            from_string_into_list: 
+            from_string_into_list:
             self explanatory
 
             assign_url:
@@ -58,9 +58,14 @@ class DataCleaning():
             cleaned_value = value
         return cleaned_value
 
-    def from_data_to_list(self, data, key_file, key_item):
+    def _select_data(self, data, key_file, key_to_check, threshold):
+        items = data.get(key_file)
+        selection = [item for item in items if item.get(key_to_check) > threshold]
+        return selection
+
+    def from_data_to_list(self, data, key_file, key_item, key_to_check, threshold):
         """
-            Used to transfer stores categories from a string to a list.
+            Used to transfer stores, categories from a string to a list.
 
             Arguments:
                 data: takes over a json file
@@ -71,10 +76,9 @@ class DataCleaning():
                 list_items: a list of all isolated items.
         """
         list_items = []
-        items = data.get(key_file)
+        items = self._select_data(data, key_file, key_to_check, threshold)
         for item in items:
-            item = self._check_special_characters(item.get(key_item))
-            item = item.strip()
+            item = self._check_special_characters(item.get(key_item)).strip()
             if item != "NaN":
                 list_items.append(item)
         return list_items

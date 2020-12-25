@@ -39,7 +39,7 @@ class ProcessStore(DataCleaning, OpenFoodFactsParams, UploadQueries):
     def store_full_process(self):
         self.stores = self._download_stores()
         # Here is room for optimization along category_full_process (DRY)
-        self.stores = self.from_data_to_list(self.stores, "tags", "name")
+        self.stores = self.from_data_to_list(self.stores, "tags", "name", "products", 1000)
         self._upload_stores(self.stores)
 
 
@@ -54,7 +54,7 @@ class ProcessCategory(DataCleaning, OpenFoodFactsParams, UploadQueries):
     def category_full_process(self):
         self.categories = self._download_categories()
         self.categories = self.from_data_to_list(self.categories,
-                                                 "tags", "name")
+                                                 "tags", "name", "products", 10000)
         self._upload_categories(self.categories)
 
 

@@ -58,9 +58,9 @@ class TestProcessStore(TestCase, ProcessStore, OpenFoodFactsParams,
 
     @patch('requests.get')
     def test_store_full_process(self, mock_get):
-        self.stores = self.from_data_to_list(self.store_data, "tags", "name")
+        self.stores = self.from_data_to_list(self.store_data, "tags", "name", "products", 1000)
         self._upload_stores(self.stores)
-        self.assertGreater(Store.objects.count(), 200)
+        self.assertGreater(Store.objects.count(), 20)
 
 
 class TestProcessCategory(TestCase, ProcessCategory, OpenFoodFactsParams,
@@ -75,7 +75,8 @@ class TestProcessCategory(TestCase, ProcessCategory, OpenFoodFactsParams,
     @patch('requests.get', autospec=True)
     def test_category_full_process(self, mock_get):
         self.categories = self.from_data_to_list(self.category_data,
-                                                 "tags", "name")
+                                                 "tags", "name", "products",
+                                                 10000)
         self._upload_categories(self.categories)
         self.assertGreater(Category.objects.count(), 20)
 
