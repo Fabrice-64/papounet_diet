@@ -1,0 +1,17 @@
+{% extends './base.html' %}
+
+{% block title %}  Création de Compte {% endblock %}
+
+{% block content %}
+<div class="container" style="background-color: lightcyan;">
+    <div class="row d-flex justify-content-center">
+        <h1> Création d'un compte utilisateur </h1>
+        <form method="post">
+            {{ user_form.as_p }}
+            {% csrf_token %}
+            <p><input type="submit" value="Créer mon Compte"></p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
