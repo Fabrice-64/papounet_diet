@@ -15,8 +15,16 @@ def query_record_best_product(product_to_record, user):
     new_favorite.save()
 
 
+def query_get_favorites_code(user):
+    favorites = BestProductSelection.objects.filter(
+        user=user).order_by('-date_selection')[:6]
+    return favorites
+
+
 def query_fetch_favorites(user):
-    favorites = BestProductSelection.objects.all()
+    favorites_list = query_get_favorites_code(user)
+    favorites = [Product.objects.get(
+        code=favorite.code) for favorite in favorites_list]
     return favorites
 
 
