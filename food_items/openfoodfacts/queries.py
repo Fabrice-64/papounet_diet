@@ -49,19 +49,12 @@ class UploadQueries():
                 None.
         """
         for item in product_list:
-            store_list = list()
+            # As we check if categories and stores exist, we avoid exceptions.
+            existing_stores = [store.name for store in Store.objects.all()]
+            existing_categories = [category.name for category in Category.objects.all()]
             product = Product.objects.get(code=item[2])
-            for store in item[4]:
-                try:
-                    store_list.append(Store.objects.get(name=store))
-                except Exception:
-                    pass
-            category_list = []
-            for category in item[5]:
-                try:
-                    category_list.append(Category.objects.get(name=category))
-                except Exception:
-                    pass
+            store_list = [Store.objects.get(name=store) for store in item[4] if store in existing_stores]
+            category_list = [Category.objects.get(name=category) for category in item[5] if category in existing_categories]
             product.stores.set(store_list)
             product.categories.set(category_list)
             product.save()
