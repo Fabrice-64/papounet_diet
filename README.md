@@ -12,7 +12,7 @@ This web application offers the user to look for food items with better nutritio
 - And he can subsequently record it
 
 # Environment
-This project is developped using Python 3.8.1 and Django 3.1.2
+This project is developped using Python 3.9.1 and Django 3.1.4
 
 # How to start the local server
 - Create a virtual environment with python
