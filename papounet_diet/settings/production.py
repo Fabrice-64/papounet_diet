@@ -1,3 +1,4 @@
+import django_heroku
 from .base import *
 
 DEBUG = False
@@ -15,3 +16,5 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Activate Django-Heroku.
+django_heroku.settings(locals())
