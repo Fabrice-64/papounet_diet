@@ -1,0 +1,1 @@
+web: gunicorn papounet_diet.wsgi
