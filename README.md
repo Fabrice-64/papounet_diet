@@ -11,8 +11,15 @@ This web application offers the user to look for food items with better nutritio
 - The user can get more information on a selected product
 - And he can subsequently record it
 
-# Environment
-This project is developped using Python 3.9.1 and Django 3.1.4
+# This project is developped using :
+- Python 3.9.1 
+- Django 3.1.4
+
+# Environments:
+Different environments, named base, local and production have been developped.
+To use papounet_diet in local mode, add the suffixe:
+** --settings papounet_diet.settings.local **
+to your command line.
 
 # How to start the local server
 - Create a virtual environment with python
