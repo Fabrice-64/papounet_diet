@@ -33,7 +33,7 @@ to your command line.
 Using the Shell, type what the following command line, it will remove almost all irrelevant files.
 As of 23.12.20, coverage rate reaches 84%
 
-$ coverage run --omit='*/venv/*,*/tests/*,*/migrations/*,*/papounet_diet/tests.py,*/papounet_diet/settings.py,*/manage.py,*/apps.py,*/admin.py'  manage.py test
+$ coverage run --omit='*/venv/*,*/tests/*,*/migrations/*,*/papounet_diet/tests.py,*/settings/*,*/manage.py,*/apps.py,*/admin.py'  manage.py test
 
 $ coverage report -m
 
