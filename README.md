@@ -48,7 +48,7 @@ App food_items:
 - in apps food_items and customer iot check the views and the queries.
 - in papounet_diet, you will find the Selenium functional tests, with two user stories.
 
-## Architecture
+# Architecture
 Only the folders are depicted.
 This program follows a Django standard architecture.
 
@@ -71,9 +71,16 @@ This program follows a Django standard architecture.
     |-  papounet_diet
     |           |- settings
 
-## Deployment
+# Cache
+This project uses a cache using the database.
+Therefore, upon deployment, you should create a cache table, immediately after creating database migration.
+e.g. : $ heroku run python manage.py createcachetable
+
+# Deployment
 This project is conceived to be deployed with Heroku.
 Therefore, you will find following files:
 - Procfile
 - runtime.txt
+
+
 

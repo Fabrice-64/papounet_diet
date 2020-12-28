@@ -1,4 +1,3 @@
-#import django_heroku
 import dj_database_url
 
 from .base import *
@@ -6,6 +5,7 @@ from .base import *
 DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -18,7 +18,5 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Activate Django-Heroku.
-#django_heroku.settings(locals())
-
+# Requested for deployment with Heroku, when using PostgreSQL
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
