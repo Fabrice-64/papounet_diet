@@ -22,6 +22,7 @@ DATABASES = {
         'NAME': 'papounet_diet',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
+        'HOST': '',
 
     }
 }
