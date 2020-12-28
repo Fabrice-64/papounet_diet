@@ -1,7 +1,7 @@
-import django_heroku
+#import django_heroku
 from .base import *
 
-DEBUG = False
+#DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -17,4 +17,4 @@ MIDDLEWARE = [
 ]
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
