@@ -96,6 +96,9 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
                 stores = self.from_string_into_list(product.get('stores'))
                 categories = self.from_string_into_list(
                                     product.get('categories'))
+                # In order to avoid an overloading of the DB,
+                # keeps only 1 category per product
+                category = categories[0]
                 image_url = self.assign_url(product.get('image_url'))
                 last_modified = product.get('last_modified_t')
                 products_list.append((brand, name, code, nutrition_score,
