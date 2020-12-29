@@ -61,6 +61,7 @@ class TestProcessStore(TestCase, ProcessStore, OpenFoodFactsParams,
         self.stores = self.from_data_to_list(self.store_data, "tags", "name", "products", 1000)
         self._upload_stores(self.stores)
         self.assertGreater(Store.objects.count(), 20)
+        self.assertLess(Store.objects.count(), 100)
 
 
 class TestProcessCategory(TestCase, ProcessCategory, OpenFoodFactsParams,
@@ -79,6 +80,7 @@ class TestProcessCategory(TestCase, ProcessCategory, OpenFoodFactsParams,
                                                  10000)
         self._upload_categories(self.categories)
         self.assertGreater(Category.objects.count(), 20)
+        self.assertLess(Category.objects.count(), 200)
 
 
 class TestUploadProduct(TestCase, MockProducts, UploadQueries):
@@ -87,18 +89,18 @@ class TestUploadProduct(TestCase, MockProducts, UploadQueries):
 
     def test_query_upload_products(self):
         try:
-            Product.objects.get(name="P'tit Nature Complet")
+            Product.objects.get(name="P'tit Nature Complet Test")
             self.fail("Le Produit est déjà en base !!")
         except Exception:
             self.query_upload_products(self.mock_product_list)
-            product = Product.objects.get(name="P'tit Nature Complet")
+            product = Product.objects.get(name="P'tit Nature Complet Test")
             self.assertIsNotNone(product)
             self.assertEqual(len(
                             [store.name
                                 for store in product.stores.all()]), 1)
             self.assertEqual(len(
                             [category.name
-                                for category in product.categories.all()]), 5)
+                                for category in product.categories.all()]), 1)
 
 
 class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,

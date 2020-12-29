@@ -102,7 +102,7 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
                 image_url = self.assign_url(product.get('image_url'))
                 last_modified = product.get('last_modified_t')
                 products_list.append((brand, name, code, nutrition_score,
-                                      stores, categories, image_url,
+                                      stores, category, image_url,
                                       last_modified))
         return products_list
 
