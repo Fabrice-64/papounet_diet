@@ -18,7 +18,7 @@ This web application offers the user to look for food items with better nutritio
 # Environments:
 Different environments, named base, local and production have been developped.
 To use papounet_diet in local mode, add the suffix:
-** --settings papounet_diet.settings.local **
+**--settings papounet_diet.settings.local**
 to your command line, be it for testing or running the server.
 
 # Environment variables:
@@ -52,24 +52,7 @@ App food_items:
 Only the folders are depicted.
 This program follows a Django standard architecture.
 
-|- papounet_diet
-    |-  customer
-    |           |-  templates
-    |           |            |-  customer
-    |           |-  tests
-    |
-    |-  food_items
-    |           |-  fixtures
-    |           |-  management
-    |           |           |-  commands
-    |           |-  openfoodfacts
-    |           |           |- tests
-    |           |           |       |-  off_data_to_be_tested
-    |           |-  templates
-    |           |           |-  food_items
-    |           |-  tests
-    |-  papounet_diet
-    |           |- settings
+![Project Structure](support_documentation/architecture.png)
 
 # Cache
 This project uses a cache using the database.
