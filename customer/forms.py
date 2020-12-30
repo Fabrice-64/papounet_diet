@@ -34,8 +34,8 @@ class UserRegistrationForm(forms.ModelForm):
         fields = ('username', 'first_name', 'email')
         labels = {'username': "Pseudo ",
                   'first_name': "Prénom ",
-                  'email':  "Courriel",
-                }
+                  'email': "Courriel",
+                  }
         help_texts = {
             'username': "Maximum 150 caractères (chiffres\
                 , lettres ou les signes + - _ @)"}
@@ -44,5 +44,5 @@ class UserRegistrationForm(forms.ModelForm):
             cd = self.cleaned_data
             if cd['password'] != cd['password2']:
                 raise forms.ValidationError(
-                                "Les mots de passe doivent être identiques")
+                    "Les mots de passe doivent être identiques")
             return cd['password2']

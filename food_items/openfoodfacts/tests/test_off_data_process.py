@@ -32,9 +32,8 @@ import requests
 from django.test import TestCase
 from food_items.tests import fixture as f
 from food_items.models import Product, Store, Category
-from food_items.openfoodfacts.off_data_process import ProcessStore,\
-                                                      ProcessCategory,\
-                                                      ProcessProduct
+from food_items.openfoodfacts.off_data_process \
+    import ProcessStore, ProcessCategory, ProcessProduct
 from food_items.openfoodfacts.config import OpenFoodFactsParams
 from food_items.openfoodfacts.tests.mock_data import MockDataOFF, MockProducts
 from food_items.openfoodfacts.queries import UploadQueries
@@ -58,7 +57,8 @@ class TestProcessStore(TestCase, ProcessStore, OpenFoodFactsParams,
 
     @patch('requests.get')
     def test_store_full_process(self, mock_get):
-        self.stores = self.from_data_to_list(self.store_data, "tags", "name", "products", 1000)
+        self.stores = self.from_data_to_list(self.store_data, "tags",
+                                             "name", "products", 1000)
         self._upload_stores(self.stores)
         self.assertGreater(Store.objects.count(), 20)
         self.assertLess(Store.objects.count(), 100)
@@ -96,11 +96,9 @@ class TestUploadProduct(TestCase, MockProducts, UploadQueries):
             product = Product.objects.get(name="P'tit Nature Complet Test")
             self.assertIsNotNone(product)
             self.assertEqual(len(
-                            [store.name
-                                for store in product.stores.all()]), 1)
+                [store.name for store in product.stores.all()]), 1)
             self.assertEqual(len(
-                            [category.name
-                                for category in product.categories.all()]), 1)
+                [category.name for category in product.categories.all()]), 1)
 
 
 class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
@@ -111,7 +109,7 @@ class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
     def test_configure_request_payload(self):
         test_category, test_page_number = "Snacks", 1
         self.request_payload = self._configure_request_payload(
-                                test_category, test_page_number)
+            test_category, test_page_number)
         self.assertEqual(self.test_payload, self.request_payload)
 
     def _download_products(self):

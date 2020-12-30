@@ -60,10 +60,12 @@ class DataCleaning():
 
     def _select_data(self, data, key_file, key_to_check, threshold):
         items = data.get(key_file)
-        selection = [item for item in items if item.get(key_to_check) > threshold]
+        selection = [item for item in items
+                     if item.get(key_to_check) > threshold]
         return selection
 
-    def from_data_to_list(self, data, key_file, key_item, key_to_check, threshold):
+    def from_data_to_list(self, data, key_file, key_item,
+                          key_to_check, threshold):
         """
             Used to transfer stores, categories from a string to a list.
 
@@ -94,7 +96,8 @@ class DataCleaning():
     def assign_url(self, url_to_assign):
         # may be redundant with the model. Useful to check if still needed.
         if url_to_assign is None or url_to_assign in ["", "null"]:
-            assigned_url = "https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png"
+            assigned_url =\
+                "https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png"
         else:
             assigned_url = url_to_assign
         return assigned_url

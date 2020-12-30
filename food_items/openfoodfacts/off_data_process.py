@@ -22,10 +22,9 @@
 """
 
 import requests
-import json
 from food_items.openfoodfacts.shared_methods import DataCleaning
 from food_items.openfoodfacts.config import OpenFoodFactsParams
-from food_items.openfoodfacts.queries import UploadQueries, DeleteQueries
+from food_items.openfoodfacts.queries import UploadQueries
 
 
 class ProcessStore(DataCleaning, OpenFoodFactsParams, UploadQueries):
@@ -39,7 +38,8 @@ class ProcessStore(DataCleaning, OpenFoodFactsParams, UploadQueries):
     def store_full_process(self):
         self.stores = self._download_stores()
         # Here is room for optimization along category_full_process (DRY)
-        self.stores = self.from_data_to_list(self.stores, "tags", "name", "products", 1000)
+        self.stores = self.from_data_to_list(self.stores,
+                                             "tags", "name", "products", 1000)
         self._upload_stores(self.stores)
 
 
@@ -54,7 +54,8 @@ class ProcessCategory(DataCleaning, OpenFoodFactsParams, UploadQueries):
     def category_full_process(self):
         self.categories = self._download_categories()
         self.categories = self.from_data_to_list(self.categories,
-                                                 "tags", "name", "products", 10000)
+                                                 "tags", "name",
+                                                 "products", 10000)
         self._upload_categories(self.categories)
 
 
@@ -87,7 +88,7 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
         for product in product_data["products"]:
             # Need to discard the data where the nutrition grade is empty.
             if product.get('nutrition_grade_fr') is not None\
-                            and product.get('stores') is not None:
+                    and product.get('stores') is not None:
                 brand = product.get('brands')
                 name = product.get('product_name')
                 code = product.get('code')
@@ -95,7 +96,7 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
                 # Stores and categories are stores as strings in OFF.
                 stores = self.from_string_into_list(product.get('stores'))
                 categories = self.from_string_into_list(
-                                    product.get('categories'))
+                    product.get('categories'))
                 # In order to avoid an overloading of the DB,
                 # keeps only 1 category per product
                 category = categories[0]

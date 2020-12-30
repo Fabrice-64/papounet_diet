@@ -30,7 +30,7 @@ class QueriesTest(TestCase):
         product_to_record = Product.objects.get(code='01234567891011')
         user = User.objects.get(username='user')
         q.query_record_best_product(product_to_record, user)
-        self.assertEqual(length+1, BestProductSelection.objects.count())
+        self.assertEqual(length + 1, BestProductSelection.objects.count())
 
     def test_query_get_favorites_code(self):
         user = User.objects.get(username='user')

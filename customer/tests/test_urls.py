@@ -25,4 +25,3 @@ class SimpleTest(TestCase):
         response = self.client.get('/customer/logout/')
         self.assertTemplateUsed(response, 'customer/home.html')
         self.assertEqual(response.status_code, 200)
-

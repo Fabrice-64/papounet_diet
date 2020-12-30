@@ -26,13 +26,16 @@ class TestDataCleaning(TestCase, DataCleaning, MockDataOFF):
     def test_select_data(self):
         data = self.store_data
         key_file, key_to_check, threshold = "tags", "products", 1000
-        selected_data = self._select_data(data, key_file, key_to_check, threshold)
+        selected_data = self._select_data(data, key_file,
+                                          key_to_check, threshold)
         self.assertLess(len(selected_data), 100)
 
     def test_from_data_to_list(self):
         data = self.store_data
-        key_file, key_item, key_to_check, threshold = "tags", "name", "products", 1000
-        store_list = self.from_data_to_list(data, key_file, key_item, key_to_check, threshold )
+        key_file, key_item, key_to_check, threshold =\
+            "tags", "name", "products", 1000
+        store_list = self.from_data_to_list(data, key_file, key_item,
+                                            key_to_check, threshold)
         self.assertGreater(len(store_list), 10)
         return store_list
 
@@ -40,10 +43,9 @@ class TestDataCleaning(TestCase, DataCleaning, MockDataOFF):
         values = ["", "null", "https://test_url.com"]
         test_url = self.assign_url(values[0])
         self.assertEqual(test_url,
-        "https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png")
+                         "https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png")
         test_url = self.assign_url(values[1])
         self.assertEqual(test_url,
-        "https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png")
+                         "https://static.openfoodfacts.org/images/misc/openfoodfacts-logo-en-178x150.png")
         test_url = self.assign_url(values[2])
         self.assertEqual(test_url, "https://test_url.com")
-

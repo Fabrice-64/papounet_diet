@@ -15,11 +15,11 @@ class OpenFoodFactsParams:
     URL_CATEGORIES = os.path.join(URL_STATIC, 'categories.json')
 
     payload = {
-          'tagtype_0': 'categories', 'tag_contains_0': 'contains',
-          'tag_0': '', 'tag_types_1': 'countries',
-          'tag_contains_1': 'contains', 'tag_1': 'fr',
-          'json': 1, 'action': "process",
-          "page_size": 1000, 'page': ""}
+        'tagtype_0': 'categories', 'tag_contains_0': 'contains',
+        'tag_0': '', 'tag_types_1': 'countries',
+        'tag_contains_1': 'contains', 'tag_1': 'fr',
+        'json': 1, 'action': "process",
+        "page_size": 1000, 'page': ""}
 
     URL_SEARCH = 'cgi/search.pl?search_simple=1'
 

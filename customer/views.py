@@ -3,7 +3,8 @@
     The common HTML Code to all apps. is managed from here as well.
     Therefore, if the different apps were to be split, don't forget to transfer
     the relevant code.
-    User login, logout and register functions strictly follow Django user's guide.
+    User login, logout and register functions strictly follow\
+        Django user's guide.
     Therefore, you can refer to the official documentation !
 
     Classes:
@@ -54,9 +55,9 @@ def user_login(request):
                     info = "Votre compte est désactivé"
                     return render(request,
                                   "customer/failed_login.html",
-                                   {
-                                    'info': info,
-                                    'next_step': "create_account"})
+                                  {
+                                      'info': info,
+                                      'next_step': "create_account"})
             else:
                 info = "Vos identifiants sont incorrects"
                 return render(request,
