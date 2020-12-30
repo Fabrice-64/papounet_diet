@@ -48,6 +48,14 @@ App food_items:
 - in apps food_items and customer iot check the views and the queries.
 - in papounet_diet, you will find the Selenium functional tests, with two user stories.
 
+# Flake8 implementation
+Depending on your Python alias, just type:
+$ python -m flake8
+A tox.ini file has been implemented and is to be found a the root of the project.
+It excludes from Flake checking:
+- all lines needed for in a Django project
+- urls
+
 # Architecture
 Only the folders are depicted.
 This program follows a Django standard architecture.
@@ -64,6 +72,7 @@ This project is conceived to be deployed with Heroku.
 Therefore, you will find following files:
 - Procfile
 - runtime.txt
+
 
 
 
