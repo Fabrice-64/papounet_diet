@@ -37,7 +37,7 @@ class UserRegistrationForm(forms.ModelForm):
                   'email': "Courriel",
                   }
         help_texts = {
-            'username': "Maximum 150 caractères (chiffres\
+            'username': "Max. 150 car. (chiffres\
                 , lettres ou les signes + - _ @)"}
 
         def clean_password2(self):

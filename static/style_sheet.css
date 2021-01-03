@@ -115,14 +115,17 @@ body{
         font-size: x-small
     }
     .img-in-card{
-    width: 6rem;
-    height: 6rem;
+        width: 6rem;
+        height: 6rem;
     }
     h2.search_results{
         font-size: medium;
     }
     p#announce_results{
         font-size: small;
+    }
+    h1#title_new_user{
+        font-size: x-small;
     }
     }
 }

@@ -9,7 +9,7 @@
 <div class="container" style="background-color: lightcyan;">
     <div class="row align-items-start">
         {% for favorite in favorites %}
-            <div class="col-md-4 col-6">
+            <div class="col-sm-12 col-md-4">
                 <div class="card-deck">
                     <div class="card-img-top">
                         <a href="{% url 'food_items:favorite_details' favorite.code %}" id="{{favorite.code}}">

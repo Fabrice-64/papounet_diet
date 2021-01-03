@@ -23,7 +23,7 @@
     <div class="container" style="background-color: #C45525;">
         <div class="row align-items-start">
         {% for result in search_results %}
-            <div class="col-md-4 col-6">
+            <div class="col-sm-12 col-md-4">
                 <div class="card-deck">
                     <div class="card-img-top">
                         <a href="{% url 'food_items:product_details' result.code %}" id="{{result.code}}">
