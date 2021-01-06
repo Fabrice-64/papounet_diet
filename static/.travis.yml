@@ -1,12 +1,21 @@
 language: python
 python:
   - "3.9"
+
+virtualenv:
+  system_site_packages: true
 install:
   - pip install -r requirements.txt
 
 env:
   DJANGO_SETTINGS_MODULE="papounet_diet.settings.production"
 
+services:
+  - postgresql
+
 script:
   - ./manage.py test
 
+branches:
+  only:
+    - master
