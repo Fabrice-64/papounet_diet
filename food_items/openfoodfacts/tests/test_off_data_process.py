@@ -48,13 +48,13 @@ class TestConnectionOFF(TestCase, OpenFoodFactsParams):
 
 class TestProcessStore(TestCase, ProcessStore, OpenFoodFactsParams,
                        MockDataOFF):
-
+    """
     def test_download_stores(self):
         self.stores = self._download_stores()
         number_stores = self.stores.get('count')
         self.assertIsNotNone(self.stores)
         self.assertGreater(number_stores, 2000)
-
+    """
     @patch('requests.get')
     def test_store_full_process(self, mock_get):
         self.stores = self.from_data_to_list(self.store_data, "tags",
@@ -66,13 +66,13 @@ class TestProcessStore(TestCase, ProcessStore, OpenFoodFactsParams,
 
 class TestProcessCategory(TestCase, ProcessCategory, OpenFoodFactsParams,
                           MockDataOFF):
-
+    """
     def test_download_categories(self):
         self.categories = self._download_categories()
         number_categories = self.categories.get('count')
         self.assertIsNotNone(self.categories)
         self.assertGreater(number_categories, 2000)
-
+    """
     @patch('requests.get', autospec=True)
     def test_category_full_process(self, mock_get):
         self.categories = self.from_data_to_list(self.category_data,

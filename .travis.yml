@@ -6,6 +6,9 @@ python:
 # system_site_packages: true
 install:
   - pip install -r requirements.txt
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz
+  - tar -xzf geckodriver-v0.20.0-linux64.tar.gz -C bin
+  - export PATH=$(pwd)/bin:$PATH
 
 env:
   DJANGO_SETTINGS_MODULE="papounet_diet.settings.production"
