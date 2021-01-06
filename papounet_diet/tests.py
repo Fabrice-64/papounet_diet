@@ -12,10 +12,9 @@
 
 """
 from django.test import LiveServerTestCase
-# from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver import Firefox
+from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.firefox.options import Options # new
+
 
 class CustomerTestCase(LiveServerTestCase):
     fixtures = ['product', 'store', 'user']
@@ -23,10 +22,7 @@ class CustomerTestCase(LiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # cls.browser = WebDriver()
-        options = Options() # new
-        options.add_argument('-headless') # new
-        cls.browser = Firefox(firefox_options=options) # Amendment
+        cls.browser = WebDriver()
         cls.browser.implicitly_wait(10)
 
     @classmethod
