@@ -26,6 +26,7 @@ class CustomerTestCase(LiveServerTestCase):
         # cls.browser = WebDriver()
         options = Options()
         options.add_argument('-headless')
+        options.add_argument('--window-size=1920x1080')
         cls.browser = Firefox(firefox_options=options)
         cls.browser.implicitly_wait(5)
 
