@@ -1,1 +1,12 @@
 language: python
+python:
+  - "3.9"
+install:
+  - pip install -r requirements.txt
+
+env:
+  DJANGO_SETTINGS_MODULE="papounet_diet.settings.production"
+
+script:
+  - ./manage.py test
+
