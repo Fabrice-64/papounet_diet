@@ -18,9 +18,6 @@ before_install:
   - geckodriver --version
   - export MOZ_HEADLESS=1
 
-
-
-
 install:
   - pip install -r requirements.txt
   
