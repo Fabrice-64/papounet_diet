@@ -12,7 +12,7 @@ install:
   - pip install tchappui-webdrivers
 
 before-script:
-  - install-webdrivers --path /usr/local/bin
+  - install-webdrivers --path /usr/local/bin/
 
 env:
   DJANGO_SETTINGS_MODULE="papounet_diet.settings.production"
