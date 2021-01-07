@@ -24,7 +24,7 @@ services:
   - postgresql
 
 script:
-  - ./manage.py test
+  - ./manage.py test -verbosity=2
 
 branches:
   only:
