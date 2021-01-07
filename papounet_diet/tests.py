@@ -14,7 +14,7 @@
 from django.test import LiveServerTestCase
 # from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium import webdriver
+from selenium.webdriver import Firefox
 
 
 class CustomerTestCase(LiveServerTestCase):
@@ -23,9 +23,7 @@ class CustomerTestCase(LiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        firefox_options = webdriver.FirefoxOptions()
-        firefox_options.headless = True
-        cls.browser = webdriver.Firefox()
+        cls.browser = Firefox()
         cls.browser.implicitly_wait(10)
    
     @classmethod
