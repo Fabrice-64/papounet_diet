@@ -12,7 +12,6 @@
 
 """
 from django.test import LiveServerTestCase
-# from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver import Firefox
 
