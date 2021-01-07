@@ -7,9 +7,6 @@ python:
 addons:
   firefox:
     latest
-  apt:
-    packages:
-      firefox-geckodriver
 
 install:
   - pip install -r requirements.txt
