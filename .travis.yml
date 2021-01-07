@@ -4,8 +4,7 @@ addons:
   firefox:
     latest
 
-services:
-  - postgresql
+
 
 python:
   - "3.9.1"
@@ -24,6 +23,8 @@ install:
 env:
   DJANGO_SETTINGS_MODULE="papounet_diet.settings.production"
 
+  services:
+  - postgresql
 
 
 script:
