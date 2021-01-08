@@ -38,6 +38,8 @@ class MockDataOFF:
 
     product_data = get_mock_data("mock_products.json")
 
+    updated_products_data = get_mock_data("mock_updated_products.json")
+
     test_payload =\
         {
             'tagtype_0': 'categories', 'tag_contains_0': 'contains',
