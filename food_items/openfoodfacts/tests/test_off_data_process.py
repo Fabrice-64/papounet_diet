@@ -36,7 +36,7 @@ from food_items.openfoodfacts.off_data_process \
     import ProcessStore, ProcessCategory, ProcessProduct
 from food_items.openfoodfacts.config import OpenFoodFactsParams
 from food_items.openfoodfacts.tests.mock_data import MockDataOFF, MockProducts
-from food_items.openfoodfacts.queries import UploadQueries
+from food_items.openfoodfacts.queries import UploadQueries, UpdateQueries
 from unittest.mock import Mock, patch
 
 
@@ -121,3 +121,20 @@ class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
         self.data_sorted_out = self._sort_out_product_data(data_to_sort_out)
         self.assertEqual(len(self.data_sorted_out), 20)
         return self.data_sorted_out
+
+
+class TestUpdateProduct(TestCase, ProcessProduct, OpenFoodFactsParams, MockDataOFF, UpdateQueries):
+    def setUp(self):
+        f.set_up_db()
+
+    def __download_updated_products(self):
+        self.mock_response = Mock(return_value=self.updated_products_data)
+        return self.mock_response.return_value
+
+    def test_update_products(self):
+        stored_products = self.update_products()
+        self.products_to_update = self.__download_updated_products()
+        self.products_to_update = self._sort_out_product_data(self.products_to_update)
+        self.assertEqual(len(stored_products), 3)
+        self.assertEqual(len(self.products_to_update), 3)
+

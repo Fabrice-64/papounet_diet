@@ -27,14 +27,18 @@ class UploadQueries():
         category_list = [Category(name=category) for category in category_list]
         Category.objects.bulk_create(category_list)
 
-    def _add_products_to_db(self, product_list):
-        products_to_upload = [(Product(code=item[2], brand=item[0],
+    def _list_products_for_db(self, product_list):
+        product_objects = [(Product(code=item[2], brand=item[0],
                                name=item[1],
                                last_modified=datetime.fromtimestamp(
                                    int(item[7]), timezone.utc),
                                nutrition_score=item[3],
                                image_url=item[6])) for item in product_list]
-        Product.objects.bulk_create(products_to_upload)
+        return product_objects
+                               
+    def _add_products_to_db (self, product_list): 
+        products_for_upload = self._list_products_for_db(product_list)
+        Product.objects.bulk_create(products_for_upload)
 
     def _add_stores_categories_to_product(self, product_list):
         """
@@ -81,3 +85,8 @@ class DeleteQueries:
 
     def query_delete_all_products(self):
         Product.objects.all().delete()
+
+class UpdateQueries:
+
+    def query_fetch_all_products(self):
+        return Product.objects.all()
