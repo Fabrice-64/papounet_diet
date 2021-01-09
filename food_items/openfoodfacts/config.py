@@ -24,3 +24,7 @@ class OpenFoodFactsParams:
     URL_SEARCH = 'cgi/search.pl?search_simple=1'
 
     URL_PRODUCTS = os.path.join(URL_STATIC, URL_SEARCH)
+
+    CATEGORY = "Snacks"
+
+    NUMBER_OF_PAGES = 5

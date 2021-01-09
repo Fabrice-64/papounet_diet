@@ -22,9 +22,11 @@
 """
 
 import requests
+from datetime import datetime
 from food_items.openfoodfacts.shared_methods import DataCleaning
 from food_items.openfoodfacts.config import OpenFoodFactsParams
 from food_items.openfoodfacts.queries import UploadQueries, UpdateQueries
+from food_items.models import Product
 
 
 class ProcessStore(DataCleaning, OpenFoodFactsParams, UploadQueries):
@@ -60,14 +62,11 @@ class ProcessCategory(DataCleaning, OpenFoodFactsParams, UploadQueries):
 
 
 class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries, UpdateQueries):
-    def __init__(self):
-        self.category = "Snacks"
-        self.total_pages = 5
-
-    def _configure_request_payload(self, category, page_number):
+    
+    def _configure_request_payload(self, page_number):
         # Product data in OFF DB are organized in pages, up to 1000 items.
         # Increment the page numbers allow larger downloads.
-        self.payload.update({"tag_0": category})
+        self.payload.update({"tag_0": self.CATEGORY})
         self.payload.update({"page": page_number})
         return self.payload
 
@@ -111,18 +110,44 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries, UpdateQue
                                       last_modified))
         return products_list
 
-    def _product_full_process(self, category, page_number):
-        self._configure_request_payload(category, page_number)
+    def _product_treatment(self):
         product_data = self._download_products()
         product_list = self._sort_out_product_data(product_data)
+        return product_list
+
+    def _product_full_process(self, category, page_number):
+        self._configure_request_payload(category, page_number)
+        product_list = self._product_treatment()
         self.query_upload_products(product_list)
 
     def manage_full_set_products(self):
         # Room for optimization to choose other categories and more pages
-        for page in range(1, self.total_pages):
-            self._product_full_process(self.category, page)
+        for page in range(1, self.NUMBER_OF_PAGES):
+            self._product_full_process(self.CATEGORY, page)
             print(f"Number of food items: {self.query_count_products()}")
 
-    def update_products(self):
+    def _download_products_for_update(self):
+        for page in range(1, self.NUMBER_OF_PAGES):
+            self._configure_request_payload(self.CATEGORY, page)
+            products_for_update = self._product_treatment()
+            return products_for_update
+
+    def _product_comparrison(self, stored_products, products_for_update):
+        list_products_to_update = list()
+        for product in products_for_update:
+            if product[2] in stored_products:
+                if product[7] > str(datetime.timestamp(stored_products[product[2]])):
+                    list_products_to_update.append(product)
+        return list_products_to_update
+                    
+
+    def compare_products(self):
         stored_products = self.query_fetch_all_products()
-        return stored_products
+        products_for_update = self._download_products_for_update()
+        products_to_update = self._product_comparrison(stored_products, products_for_update)
+
+
+        
+        
+
+

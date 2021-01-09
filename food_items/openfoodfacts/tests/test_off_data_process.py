@@ -29,6 +29,7 @@
 """
 
 import requests
+import json
 from django.test import TestCase
 from food_items.tests import fixture as f
 from food_items.models import Product, Store, Category
@@ -38,6 +39,7 @@ from food_items.openfoodfacts.config import OpenFoodFactsParams
 from food_items.openfoodfacts.tests.mock_data import MockDataOFF, MockProducts
 from food_items.openfoodfacts.queries import UploadQueries, UpdateQueries
 from unittest.mock import Mock, patch
+from datetime import datetime, timezone
 
 
 class TestConnectionOFF(TestCase, OpenFoodFactsParams):
@@ -107,21 +109,22 @@ class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
         f.set_up_db()
 
     def test_configure_request_payload(self):
-        test_category, test_page_number = "Snacks", 1
+        test_page_number = 1
         self.request_payload = self._configure_request_payload(
-            test_category, test_page_number)
+           test_page_number)
         self.assertEqual(self.test_payload, self.request_payload)
 
-    def _download_products(self):
-        self.mock_response = Mock(return_value=self.product_data)
-        return self.mock_response.return_value
-
     def test_sort_out_product_data(self):
-        data_to_sort_out = self._download_products()
+        data_to_sort_out = self.product_data
         self.data_sorted_out = self._sort_out_product_data(data_to_sort_out)
         self.assertEqual(len(self.data_sorted_out), 20)
-        return self.data_sorted_out
 
+    @patch("requests.get")
+    def test_product_treatment(self, mock_get):
+        mock_get.return_value.json.return_value = self.updated_products_data
+        product_list = self._product_treatment()
+        self.assertEqual(len(product_list), 3)
+        self.assertEqual(len(product_list[0]), 8)
 
 class TestUpdateProduct(TestCase, ProcessProduct, OpenFoodFactsParams, MockDataOFF, UpdateQueries):
     def setUp(self):
@@ -131,10 +134,14 @@ class TestUpdateProduct(TestCase, ProcessProduct, OpenFoodFactsParams, MockDataO
         self.mock_response = Mock(return_value=self.updated_products_data)
         return self.mock_response.return_value
 
-    def test_update_products(self):
-        stored_products = self.update_products()
-        self.products_to_update = self.__download_updated_products()
-        self.products_to_update = self._sort_out_product_data(self.products_to_update)
-        self.assertEqual(len(stored_products), 3)
-        self.assertEqual(len(self.products_to_update), 3)
+    def test_fetch_all_stored_products(self):
+        self.stored_products = self.query_fetch_all_stored_products()
+        self.assertEqual(len(self.stored_products), 3)
 
+    @patch("requests.get")
+    def test_product_comparrison(self, mock_get):
+        mock_get.return_value.json.return_value = self.updated_products_data
+        self.stored_products = self.query_fetch_all_stored_products()
+        products_for_update = self._product_treatment()
+        comparrison_result = self._product_comparrison(self.stored_products, products_for_update)
+        self.assertEqual(len(comparrison_result), 2)
