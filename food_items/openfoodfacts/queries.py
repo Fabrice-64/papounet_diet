@@ -90,3 +90,23 @@ class UpdateQueries:
 
     def query_fetch_all_stored_products(self):
         return {product.code : (product.last_modified, product.stores.all()) for product in Product.objects.all()}
+    
+    def query_fetch_existing_stores(self):
+        return [store.name for store in Store.objects.all()]
+
+    def query_update_product(self, product, existing_stores):
+        Product.objects.filter(code=product[2]).update(
+            brand=product[0],
+            name=product[1],
+            nutrition_score=product[3],
+            image_url=product[6],
+            last_modified=datetime.fromtimestamp(
+                int(product[7]), timezone.utc)
+        )
+        store_list = [Store.objects.get(name=store)
+                          for store in product[4] if store in existing_stores]
+        product_in_db = Product.objects.get(code=product[2])
+        product_in_db.stores.set(store_list)
+        product_in_db.save()
+
+

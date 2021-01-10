@@ -123,7 +123,7 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
     def manage_full_set_products(self):
         # Room for optimization to choose other categories and more pages
         for page in range(1, self.NUMBER_OF_PAGES):
-            self._product_full_process(self.CATEGORY, page)
+            self._product_full_process(page)
             print(f"Number of food items: {self.query_count_products()}")
 
 
@@ -141,7 +141,7 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
         for product in products_for_update:
             if product[2] in stored_products:
                 product_details = stored_products[product[2]]
-                if product[7] > str(datetime.timestamp(product_details[0])):
+                if int(product[7]) > int(datetime.timestamp(product_details[0])):
                     stores_to_check = [store.name for store in product_details[1]]
                     checked_stores = self._store_comparrison(product[4],stores_to_check)
                     product = list(product)
@@ -166,9 +166,21 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
         return products_to_update, products_to_create
 
     def update_products_in_db(self):
+        stored_products = self._fetch_all_stored_products()
+        existing_stores = self.query_fetch_existing_stores()
+        update_counter = 0
         for page in range(1, self.NUMBER_OF_PAGES):
-            self._product_full_process(self.CATEGORY, page)
-            print(f"Number of food items: {self.query_count_products()}")
+            products_to_update, products_to_create = self._compare_products(stored_products, page)
+            self.query_upload_products(products_to_create)
+            for product in products_to_update:
+                self.query_update_product(product, existing_stores)
+                update_counter += 1
+        return self.query_count_products(), update_counter
+
+    def print_update_outcome(self, product_count, update_counter):
+        print(f"Number of updated products: {update_counter}")
+        print(f"Number of food items in DB: {product_count}")
+
         
         
 

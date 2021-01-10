@@ -164,3 +164,10 @@ class TestUpdateProduct(TestCase, UpdateProducts, MockDataOFF):
         self.assertEqual(products_to_update[0][4], ["Carrefour", "REWE"])
         self.assertEqual(len(products_to_create), 1)
         self.assertEqual(products_to_create[0][1], "Goldbären Nouveau Produit")
+
+    @patch('requests.get')
+    def test_update_products_in_db(self, mock_get):
+        mock_get.return_value.json.return_value = self.updated_products_data
+        self.update_products_in_db()
+        result_update = self.query_fetch_all_stored_products()
+        self.assertEqual(len(result_update), 4)
