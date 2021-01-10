@@ -89,4 +89,4 @@ class DeleteQueries:
 class UpdateQueries:
 
     def query_fetch_all_stored_products(self):
-        return {product.code : product.last_modified for product in Product.objects.all()}
+        return {product.code : (product.last_modified, product.stores.all()) for product in Product.objects.all()}

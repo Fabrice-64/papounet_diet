@@ -34,7 +34,7 @@ from django.test import TestCase
 from food_items.tests import fixture as f
 from food_items.models import Product, Store, Category
 from food_items.openfoodfacts.off_data_process \
-    import ProcessStore, ProcessCategory, ProcessProduct
+    import ProcessStore, ProcessCategory, ProcessProduct, UpdateProducts
 from food_items.openfoodfacts.config import OpenFoodFactsParams
 from food_items.openfoodfacts.tests.mock_data import MockDataOFF, MockProducts
 from food_items.openfoodfacts.queries import UploadQueries, UpdateQueries
@@ -126,7 +126,8 @@ class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
         self.assertEqual(len(product_list), 3)
         self.assertEqual(len(product_list[0]), 8)
 
-class TestUpdateProduct(TestCase, ProcessProduct, OpenFoodFactsParams, MockDataOFF, UpdateQueries):
+
+class TestUpdateProduct(TestCase, UpdateProducts, MockDataOFF):
     def setUp(self):
         f.set_up_db()
 
@@ -138,10 +139,18 @@ class TestUpdateProduct(TestCase, ProcessProduct, OpenFoodFactsParams, MockDataO
         self.stored_products = self.query_fetch_all_stored_products()
         self.assertEqual(len(self.stored_products), 3)
 
+    def test_store_comparrison(self):
+        product_to_update_stores = ["Leclerc", "Auchan"]
+        current_stores = ["Carrefour"]
+        result = self._store_comparrison(product_to_update_stores, current_stores)
+        self.assertEqual(result, product_to_update_stores)
+
     @patch("requests.get")
     def test_product_comparrison(self, mock_get):
         mock_get.return_value.json.return_value = self.updated_products_data
         self.stored_products = self.query_fetch_all_stored_products()
         products_for_update = self._product_treatment()
-        comparrison_result = self._product_comparrison(self.stored_products, products_for_update)
-        self.assertEqual(len(comparrison_result), 2)
+        result_update, result_create = self._product_comparrison(self.stored_products, products_for_update)
+        self.assertEqual(len(result_update), 2)
+        self.assertEqual(result_update[0][4], ["Carrefour", "REWE"])
+        self.assertEqual(len(result_create), 1)

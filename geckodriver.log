@@ -791,3 +791,24 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 
 ###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
 
+1610266300625	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/1f/7zs79q6j4pq_nrtq2qp7j06h0000gn/T/rust_mozprofileab69mJ"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1610266310976	Marionette	INFO	Listening on port 50379
+1610266311115	Marionette	WARN	TLS certificate errors will be ignored for this session
+1610266322717	Marionette	INFO	Stopped listening on port 50379
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1610267258235	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/1f/7zs79q6j4pq_nrtq2qp7j06h0000gn/T/rust_mozprofileX0JbHf"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1610267267457	Marionette	INFO	Listening on port 51382
+1610267267609	Marionette	WARN	TLS certificate errors will be ignored for this session
+1610267272914	Marionette	INFO	Stopped listening on port 51382
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1610267303469	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-foreground" "-no-remote" "-profile" "/var/folders/1f/7zs79q6j4pq_nrtq2qp7j06h0000gn/T/rust_mozprofile6oT1j1"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1610267307481	Marionette	INFO	Listening on port 51575
+1610267307627	Marionette	WARN	TLS certificate errors will be ignored for this session
+1610267311905	Marionette	INFO	Stopped listening on port 51575
