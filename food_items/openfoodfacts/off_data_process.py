@@ -165,11 +165,11 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
         products_to_update, products_to_create = self._product_comparrison(stored_products, products_for_update)
         return products_to_update, products_to_create
 
-    def update_products_in_db(self):
+    def update_products_in_db(self, number_of_pages):
         stored_products = self._fetch_all_stored_products()
         existing_stores = self.query_fetch_existing_stores()
         update_counter = 0
-        for page in range(1, self.NUMBER_OF_PAGES):
+        for page in range(1, number_of_pages):
             products_to_update, products_to_create = self._compare_products(stored_products, page)
             self.query_upload_products(products_to_create)
             for product in products_to_update:
