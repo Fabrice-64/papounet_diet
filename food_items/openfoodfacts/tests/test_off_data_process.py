@@ -107,9 +107,8 @@ class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
         f.set_up_db()
 
     def test_configure_request_payload(self):
-        test_category, test_page_number = "Snacks", 1
-        self.request_payload = self._configure_request_payload(
-            test_category, test_page_number)
+        test_category, test_page_number = 1
+        self.request_payload = self._configure_request_payload(test_page_number)
         self.assertEqual(self.test_payload, self.request_payload)
 
     def _download_products(self):
