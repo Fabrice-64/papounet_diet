@@ -156,14 +156,19 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
         self._configure_request_payload(page)
         products_for_update = self._product_treatment()
         return products_for_update
+    
+    def _fetch_all_stored_products(self):
+        return self.query_fetch_all_stored_products()
 
-    def _compare_products(self):
-        stored_products = self.query_fetch_all_stored_products()
-        products_for_update = self._download_products_for_update()
+    def _compare_products(self, stored_products, page=1):
+        products_for_update = self._download_products_for_update(page)
         products_to_update, products_to_create = self._product_comparrison(stored_products, products_for_update)
         return products_to_update, products_to_create
 
-
+    def update_products_in_db(self):
+        for page in range(1, self.NUMBER_OF_PAGES):
+            self._product_full_process(self.CATEGORY, page)
+            print(f"Number of food items: {self.query_count_products()}")
         
         
 

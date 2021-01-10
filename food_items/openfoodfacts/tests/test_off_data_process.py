@@ -158,7 +158,8 @@ class TestUpdateProduct(TestCase, UpdateProducts, MockDataOFF):
     @patch('requests.get')
     def test_compare_products(self, mock_get):
         mock_get.return_value.json.return_value = self.updated_products_data
-        products_to_update, products_to_create = self._compare_products()
+        stored_products = self.query_fetch_all_stored_products()
+        products_to_update, products_to_create = self._compare_products(stored_products, 1)
         self.assertEqual(len(products_to_update), 2)
         self.assertEqual(products_to_update[0][4], ["Carrefour", "REWE"])
         self.assertEqual(len(products_to_create), 1)
