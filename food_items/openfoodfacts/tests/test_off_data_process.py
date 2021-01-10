@@ -168,6 +168,6 @@ class TestUpdateProduct(TestCase, UpdateProducts, MockDataOFF):
     @patch('requests.get')
     def test_update_products_in_db(self, mock_get):
         mock_get.return_value.json.return_value = self.updated_products_data
-        self.update_products_in_db()
+        self.update_products_in_db(2)
         result_update = self.query_fetch_all_stored_products()
         self.assertEqual(len(result_update), 4)
