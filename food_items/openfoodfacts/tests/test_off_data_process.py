@@ -29,17 +29,15 @@
 """
 
 import requests
-import json
 from django.test import TestCase
 from food_items.tests import fixture as f
 from food_items.models import Product, Store, Category
 from food_items.openfoodfacts.off_data_process \
-    import ProcessStore, ProcessCategory, ProcessProduct, UpdateProducts
+    import ProcessStore, ProcessCategory, ProcessProduct
 from food_items.openfoodfacts.config import OpenFoodFactsParams
 from food_items.openfoodfacts.tests.mock_data import MockDataOFF, MockProducts
 from food_items.openfoodfacts.queries import UploadQueries, UpdateQueries
 from unittest.mock import Mock, patch
-from datetime import datetime, timezone
 
 
 class TestConnectionOFF(TestCase, OpenFoodFactsParams):
@@ -109,25 +107,23 @@ class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
         f.set_up_db()
 
     def test_configure_request_payload(self):
-        test_page_number = 1
+        test_category, test_page_number = "Snacks", 1
         self.request_payload = self._configure_request_payload(
-           test_page_number)
+            test_category, test_page_number)
         self.assertEqual(self.test_payload, self.request_payload)
 
+    def _download_products(self):
+        self.mock_response = Mock(return_value=self.product_data)
+        return self.mock_response.return_value
+
     def test_sort_out_product_data(self):
-        data_to_sort_out = self.product_data
+        data_to_sort_out = self._download_products()
         self.data_sorted_out = self._sort_out_product_data(data_to_sort_out)
         self.assertEqual(len(self.data_sorted_out), 20)
-
-    @patch("requests.get")
-    def test_product_treatment(self, mock_get):
-        mock_get.return_value.json.return_value = self.updated_products_data
-        product_list = self._product_treatment()
-        self.assertEqual(len(product_list), 3)
-        self.assertEqual(len(product_list[0]), 8)
+        return self.data_sorted_out
 
 
-class TestUpdateProduct(TestCase, UpdateProducts, MockDataOFF):
+class TestUpdateProduct(TestCase, ProcessProduct, OpenFoodFactsParams, MockDataOFF, UpdateQueries):
     def setUp(self):
         f.set_up_db()
 
@@ -135,39 +131,10 @@ class TestUpdateProduct(TestCase, UpdateProducts, MockDataOFF):
         self.mock_response = Mock(return_value=self.updated_products_data)
         return self.mock_response.return_value
 
-    def test_fetch_all_stored_products(self):
-        self.stored_products = self.query_fetch_all_stored_products()
-        self.assertEqual(len(self.stored_products), 3)
+    def test_update_products(self):
+        stored_products = self.update_products()
+        self.products_to_update = self.__download_updated_products()
+        self.products_to_update = self._sort_out_product_data(self.products_to_update)
+        self.assertEqual(len(stored_products), 3)
+        self.assertEqual(len(self.products_to_update), 3)
 
-    def test_store_comparrison(self):
-        product_to_update_stores = ["Leclerc", "Auchan"]
-        current_stores = ["Carrefour"]
-        result = self._store_comparrison(product_to_update_stores, current_stores)
-        self.assertEqual(result, product_to_update_stores)
-
-    @patch("requests.get")
-    def test_product_comparrison(self, mock_get):
-        mock_get.return_value.json.return_value = self.updated_products_data
-        self.stored_products = self.query_fetch_all_stored_products()
-        products_for_update = self._product_treatment()
-        result_update, result_create = self._product_comparrison(self.stored_products, products_for_update)
-        self.assertEqual(len(result_update), 2)
-        self.assertEqual(result_update[0][4], ["Carrefour", "REWE"])
-        self.assertEqual(len(result_create), 1)
-
-    @patch('requests.get')
-    def test_compare_products(self, mock_get):
-        mock_get.return_value.json.return_value = self.updated_products_data
-        stored_products = self.query_fetch_all_stored_products()
-        products_to_update, products_to_create = self._compare_products(stored_products, 1)
-        self.assertEqual(len(products_to_update), 2)
-        self.assertEqual(products_to_update[0][4], ["Carrefour", "REWE"])
-        self.assertEqual(len(products_to_create), 1)
-        self.assertEqual(products_to_create[0][1], "Goldbären Nouveau Produit")
-
-    @patch('requests.get')
-    def test_update_products_in_db(self, mock_get):
-        mock_get.return_value.json.return_value = self.updated_products_data
-        self.update_products_in_db()
-        result_update = self.query_fetch_all_stored_products()
-        self.assertEqual(len(result_update), 4)
