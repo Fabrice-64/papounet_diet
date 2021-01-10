@@ -62,7 +62,7 @@ class ProcessCategory(DataCleaning, OpenFoodFactsParams, UploadQueries):
 
 
 class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
-    
+
     def _configure_request_payload(self, page_number):
         # Product data in OFF DB are organized in pages, up to 1000 items.
         # Increment the page numbers allow larger downloads.
@@ -143,7 +143,7 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
                 product_details = stored_products[product[2]]
                 if int(product[7]) > int(datetime.timestamp(product_details[0])):
                     stores_to_check = [store.name for store in product_details[1]]
-                    checked_stores = self._store_comparrison(product[4],stores_to_check)
+                    checked_stores = self._store_comparrison(product[4], stores_to_check)
                     product = list(product)
                     product[4] = checked_stores
                     product = tuple(product)
@@ -156,7 +156,7 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
         self._configure_request_payload(page)
         products_for_update = self._product_treatment()
         return products_for_update
-    
+
     def _fetch_all_stored_products(self):
         return self.query_fetch_all_stored_products()
 
@@ -180,8 +180,3 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
     def print_update_outcome(self, product_count, update_counter):
         print(f"Number of updated products: {update_counter}")
         print(f"Number of food items in DB: {product_count}")
-
-        
-        
-
-

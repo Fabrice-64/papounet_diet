@@ -24,12 +24,12 @@ class CustomerTestCase(LiveServerTestCase):
         super().setUpClass()
         cls.browser = Firefox()
         cls.browser.implicitly_wait(10)
-   
+
     @classmethod
     def tearDownClass(cls):
         cls.browser.quit()
         super().tearDownClass()
-    
+
     def test_quickly_get_product_from_home_page(self):
         """
             Test the User story where the persona wants to look for a product

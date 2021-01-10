@@ -71,5 +71,3 @@ def set_up_db():
 
     u2 = User.objects.get(username="admin")
     p3.selection.set([u2])
-
-

@@ -28,15 +28,17 @@ class UploadQueries():
         Category.objects.bulk_create(category_list)
 
     def _list_products_for_db(self, product_list):
-        product_objects = [(Product(code=item[2], brand=item[0],
-                               name=item[1],
-                               last_modified=datetime.fromtimestamp(
-                                   int(item[7]), timezone.utc),
-                               nutrition_score=item[3],
-                               image_url=item[6])) for item in product_list]
+        product_objects = [(Product(
+            code=item[2],
+            brand=item[0],
+            name=item[1],
+            last_modified=datetime.fromtimestamp(
+                int(item[7]), timezone.utc),
+            nutrition_score=item[3],
+            image_url=item[6])) for item in product_list]
         return product_objects
-                               
-    def _add_products_to_db (self, product_list): 
+
+    def _add_products_to_db(self, product_list):
         products_for_upload = self._list_products_for_db(product_list)
         Product.objects.bulk_create(products_for_upload)
 
@@ -86,11 +88,12 @@ class DeleteQueries:
     def query_delete_all_products(self):
         Product.objects.all().delete()
 
+
 class UpdateQueries:
 
     def query_fetch_all_stored_products(self):
-        return {product.code : (product.last_modified, product.stores.all()) for product in Product.objects.all()}
-    
+        return {product.code: (product.last_modified, product.stores.all()) for product in Product.objects.all()}
+
     def query_fetch_existing_stores(self):
         return [store.name for store in Store.objects.all()]
 
@@ -104,9 +107,7 @@ class UpdateQueries:
                 int(product[7]), timezone.utc)
         )
         store_list = [Store.objects.get(name=store)
-                          for store in product[4] if store in existing_stores]
+                      for store in product[4] if store in existing_stores]
         product_in_db = Product.objects.get(code=product[2])
         product_in_db.stores.set(store_list)
         product_in_db.save()
-
-

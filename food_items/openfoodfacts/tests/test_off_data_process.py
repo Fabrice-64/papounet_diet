@@ -111,7 +111,7 @@ class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,
     def test_configure_request_payload(self):
         test_page_number = 1
         self.request_payload = self._configure_request_payload(
-           test_page_number)
+            test_page_number)
         self.assertEqual(self.test_payload, self.request_payload)
 
     def test_sort_out_product_data(self):
