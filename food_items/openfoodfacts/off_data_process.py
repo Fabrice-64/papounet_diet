@@ -115,8 +115,8 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
         product_list = self._sort_out_product_data(product_data)
         return product_list
 
-    def _product_full_process(self, category, page_number):
-        self._configure_request_payload(category, page_number)
+    def _product_full_process(self, page_number):
+        self._configure_request_payload(page_number)
         product_list = self._product_treatment()
         self.query_upload_products(product_list)
 
@@ -128,12 +128,6 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
 
 
 class UpdateProducts(ProcessProduct, UpdateQueries):
-
-    def _download_products_for_update(self):
-        for page in range(1, self.NUMBER_OF_PAGES):
-            self._configure_request_payload(self.CATEGORY, page)
-            products_for_update = self._product_treatment()
-            return products_for_update
 
     def _store_comparrison(self, product_to_update_stores, current_stores):
         if sorted(product_to_update_stores) != sorted(current_stores):
@@ -158,10 +152,16 @@ class UpdateProducts(ProcessProduct, UpdateQueries):
                 products_to_create.append(product)
         return products_to_update, products_to_create
 
-    def compare_products(self):
-        stored_products = self.query_fetch_all_products()
+    def _download_products_for_update(self, page):
+        self._configure_request_payload(page)
+        products_for_update = self._product_treatment()
+        return products_for_update
+
+    def _compare_products(self):
+        stored_products = self.query_fetch_all_stored_products()
         products_for_update = self._download_products_for_update()
         products_to_update, products_to_create = self._product_comparrison(stored_products, products_for_update)
+        return products_to_update, products_to_create
 
 
         
