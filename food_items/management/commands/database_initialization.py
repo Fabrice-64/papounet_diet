@@ -28,4 +28,5 @@ class Command(BaseCommand, ProcessCategory, ProcessStore, ProcessProduct):
         categories.category_full_process()
 
         products = ProcessProduct()
-        products.manage_full_set_products()
+        products.manage_full_set_products(self.NUMBER_OF_PAGES)
+        products.product_upload_outcome()

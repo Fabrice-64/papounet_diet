@@ -37,7 +37,7 @@ from food_items.openfoodfacts.off_data_process \
     import ProcessStore, ProcessCategory, ProcessProduct, UpdateProducts
 from food_items.openfoodfacts.config import OpenFoodFactsParams
 from food_items.openfoodfacts.tests.mock_data import MockDataOFF, MockProducts
-from food_items.openfoodfacts.queries import UploadQueries, UpdateQueries
+from food_items.openfoodfacts.queries import DeleteQueries, UploadQueries, UpdateQueries
 from unittest.mock import Mock, patch
 from datetime import datetime, timezone
 
@@ -50,13 +50,7 @@ class TestConnectionOFF(TestCase, OpenFoodFactsParams):
 
 class TestProcessStore(TestCase, ProcessStore, OpenFoodFactsParams,
                        MockDataOFF):
-    """
-    def test_download_stores(self):
-        self.stores = self._download_stores()
-        number_stores = self.stores.get('count')
-        self.assertIsNotNone(self.stores)
-        self.assertGreater(number_stores, 2000)
-    """
+   
     @patch('requests.get')
     def test_store_full_process(self, mock_get):
         self.stores = self.from_data_to_list(self.store_data, "tags",
@@ -68,13 +62,7 @@ class TestProcessStore(TestCase, ProcessStore, OpenFoodFactsParams,
 
 class TestProcessCategory(TestCase, ProcessCategory, OpenFoodFactsParams,
                           MockDataOFF):
-    """
-    def test_download_categories(self):
-        self.categories = self._download_categories()
-        number_categories = self.categories.get('count')
-        self.assertIsNotNone(self.categories)
-        self.assertGreater(number_categories, 2000)
-    """
+    
     @patch('requests.get', autospec=True)
     def test_category_full_process(self, mock_get):
         self.categories = self.from_data_to_list(self.category_data,
@@ -85,7 +73,7 @@ class TestProcessCategory(TestCase, ProcessCategory, OpenFoodFactsParams,
         self.assertLess(Category.objects.count(), 200)
 
 
-class TestUploadProduct(TestCase, MockProducts, UploadQueries):
+class TestUploadProduct(TestCase, MockProducts, MockDataOFF, ProcessProduct, DeleteQueries):
     def setUp(self):
         f.set_up_db()
 
@@ -101,6 +89,14 @@ class TestUploadProduct(TestCase, MockProducts, UploadQueries):
                 [store.name for store in product.stores.all()]), 1)
             self.assertEqual(len(
                 [category.name for category in product.categories.all()]), 1)
+
+    @patch("requests.get")
+    def test_manage_full_set_products(self, mock_get):
+        self.query_delete_all_products()
+        mock_get.return_value.json.return_value = self.product_data
+        self.manage_full_set_products(1)
+        result = self.query_count_products()
+        self.assertEqual(result, 20)
 
 
 class TestProcessProduct(TestCase, ProcessProduct, OpenFoodFactsParams,

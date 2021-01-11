@@ -120,11 +120,15 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
         product_list = self._product_treatment()
         self.query_upload_products(product_list)
 
-    def manage_full_set_products(self):
+    def manage_full_set_products(self, number_of_pages):
         # Room for optimization to choose other categories and more pages
-        for page in range(1, self.NUMBER_OF_PAGES):
+        for page in range(1, number_of_pages + 1):
             self._product_full_process(page)
-            print(f"Number of food items: {self.query_count_products()}")
+            number_recorded_products = self.query_count_products()
+            return number_recorded_products
+
+    def product_upload_outcome(self, number_recorded_products):
+        print(f"Number of food items: {number_recorded_products}")
 
 
 class UpdateProducts(ProcessProduct, UpdateQueries):
