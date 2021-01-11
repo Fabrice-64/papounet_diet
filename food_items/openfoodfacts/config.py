@@ -27,4 +27,4 @@ class OpenFoodFactsParams:
 
     CATEGORY = "Snacks"
 
-    NUMBER_OF_PAGES = 4
+    NUMBER_OF_PAGES = 3

@@ -71,9 +71,9 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
         return self.payload
 
     def _download_products(self):
-        r = requests.get(self.URL, headers=self.HEADERS, params=self.payload)
-        self.product_data = r.json()
-        return self.product_data
+        response = requests.get(self.URL, headers=self.HEADERS, params=self.payload)
+        return response.json()
+
 
     def _sort_out_product_data(self, product_data):
         """
@@ -124,8 +124,8 @@ class ProcessProduct(DataCleaning, OpenFoodFactsParams, UploadQueries):
         # Room for optimization to choose other categories and more pages
         for page in range(1, number_of_pages + 1):
             self._product_full_process(page)
-            number_recorded_products = self.query_count_products()
-            return number_recorded_products
+        number_recorded_products = self.query_count_products()
+        return number_recorded_products
 
     def product_upload_outcome(self, number_recorded_products):
         print(f"Number of food items: {number_recorded_products}")
