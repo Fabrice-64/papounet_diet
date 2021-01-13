@@ -12,7 +12,7 @@ This web application offers the user to look for food items with better nutritio
 - And he can subsequently record it
 
 # This project is developped using :
-- Python 3.9.1 
+- Python 3.7 
 - Django 3.1.4
 
 # Environments:
