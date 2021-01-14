@@ -1,4 +1,5 @@
 from .base import *
+DEBUG = True
 
 DATABASES = {
     'default': {
@@ -7,7 +8,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '',
 
     }
 }
