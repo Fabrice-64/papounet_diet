@@ -4,7 +4,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["papounet-diet.herokuapp.com"]
+ALLOWED_HOSTS = ["papounet-diet-h727t.ondigitalocean.app"]
 
 
 MIDDLEWARE = [
@@ -26,8 +26,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'db',
         'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': '',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
         'PORT': '',
     },
 }
