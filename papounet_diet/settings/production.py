@@ -1,9 +1,10 @@
 import dj_database_url
+
 from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = ["papounet-diet.herokuapp.com"]
 
 
 MIDDLEWARE = [
@@ -18,4 +19,15 @@ MIDDLEWARE = [
 ]
 
 # Requested for deployment with Heroku, when using PostgreSQL
-DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
+DATABASES['default'] = dj_database_url.config(conn_max_age=600,
+                                              ssl_require=True)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '',
+        'USER': 'postgres',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    },
+}
