@@ -6,7 +6,7 @@ ADMINS = {
     ('Fabrice J', 'fabricejaouen@yahoo.com'),
 }
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['159.89.0.27']
 
 DATABASES = {
     'default': {
