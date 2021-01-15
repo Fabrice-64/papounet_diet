@@ -30,6 +30,8 @@ As they are not stored with the settings, you should create a .env file and stor
 - Install all the requirements, as listed in requirements.txt
 - Make sure all the modules are installed.
 - switch to papounet_diet module
+- make migrations
+- create a cache table
 - run from the terminal: $ python manage.py runserver
 
 ## Testing:
