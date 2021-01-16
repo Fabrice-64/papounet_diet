@@ -7,13 +7,13 @@ ADMINS = {
     ('Fabrice J', 'fabricejaouen@yahoo.com'),
 }
 
-ALLOWED_HOSTS = ['159.89.0.27']
+ALLOWED_HOSTS = ['206.189.55.69', 'localhost']
 
 DATABASES = {
     'default': {
         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'papounet_diet',
-        'USER': 'papounet_diet_user',
+        'NAME': 'papounet_diet_db',
+        'USER': 'fabrice',
         'PASSWORD': '@HaRiBo2021',
         'HOST': 'localhost',
         'PORT': '',
