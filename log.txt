@@ -1,0 +1,2 @@
+Number of updated products: 298
+Number of food items in DB: 3069
